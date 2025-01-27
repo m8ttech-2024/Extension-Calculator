@@ -6,28 +6,39 @@
     <title>PBX Extension Caller</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #121212; /* Dark background */
-            color: #ffffff; /* Light text color */
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
         .container {
-            max-width: 600px;
-            margin: auto;
-            background: #1e1e1e; /* Darker background for the container */
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+            transition: transform 0.3s ease;
+        }
+        .container:hover {
+            transform: scale(1.02);
         }
         h1 {
             text-align: center;
-            color: #bb86fc; /* Color for the heading */
+            color: #bb86fc;
+            margin-bottom: 10px;
         }
         p {
             text-align: center;
-            color: #ffffff; /* Light text color for description */
+            color: #ffffff;
             margin-bottom: 20px;
+            font-size: 1.1em;
         }
         .input-group {
             margin-bottom: 15px;
@@ -35,32 +46,43 @@
         label {
             display: block;
             margin-bottom: 5px;
-            color: #ffffff; /* Light text color for labels */
+            color: #ffffff;
         }
         select, input, button {
-            width: calc(100% - 22px); /* Set width to be the same, accounting for padding */
-            padding: 10px;
-            border: 1px solid #444444; /* Dark border */
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444444;
             border-radius: 4px;
-            background-color: #333333; /* Background color for input fields */
-            color: #ffffff; /* Light text color for input fields */
-            box-sizing: border-box; /* Include padding and border in element's total width and height */
-            margin-top: 5px; /* Added margin to separate elements */
+            background-color: #333333;
+            color: #ffffff;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        select:focus, input:focus {
+            background-color: #444444;
+            border-color: #bb86fc;
+            outline: none;
         }
         button {
-            background-color: #bb86fc; /* Button color */
+            background-color: #bb86fc;
             color: white;
             border: none;
             cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
         }
         button:hover {
-            background-color: #9b59b6; /* Darker shade on hover */
+            background-color: #9b59b6;
         }
         .result {
             margin-top: 20px;
-            padding: 10px;
-            background-color: #292929; /* Dark background for result */
-            border-left: 5px solid #03dac6; /* Accent color */
+            padding: 15px;
+            background-color: #292929;
+            border-left: 5px solid #03dac6;
+            border-radius: 4px;
+            display: none; /* Hidden by default */
         }
         .error {
             color: red;
@@ -87,12 +109,12 @@
     </div>
     <div class="input-group">
         <label for="extension">Enter Extension Number:</label>
-        <input type="text" id="extension" placeholder="e.g 1001, 6664021">
+        <input type="text" id="extension" placeholder="e.g., 6664021">
     </div>
     <button onclick="getDialingInstructions()">Get Instructions</button>
 
-    <div class="result" id="result" style="display:none;"></div>
-    <div class="error" id="error" style="display:none;"></div>
+    <div class="result" id="result"></div>
+    <div class="error" id="error"></div>
 </div>
 
 <script>
@@ -135,7 +157,6 @@
                 break;
             case 'phonenet':
                 instructions = `To call extension <strong>${extension}</strong> from PhoneNet, dial <strong>9${extension}</strong>.`;
-                instructions += `<br>To call extension <strong>${extension}</strong> from CSP, dial <strong>795${extension}</strong>.`;
                 break;
             case 'uwutel':
                 instructions = `To call extension <strong>${extension}</strong> from UwUtel, dial <strong>70119${extension}</strong>.`;
