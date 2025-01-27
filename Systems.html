@@ -7,20 +7,22 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #121212; /* Dark background */
+            color: #ffffff; /* Light text color */
             margin: 0;
             padding: 20px;
         }
         .container {
             max-width: 600px;
             margin: auto;
-            background: white;
+            background: #1e1e1e; /* Darker background for the container */
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
         h1 {
             text-align: center;
+            color: #bb86fc; /* Color for the heading */
         }
         .input-group {
             margin-bottom: 15px;
@@ -28,16 +30,19 @@
         label {
             display: block;
             margin-bottom: 5px;
+            color: #ffffff; /* Light text color for labels */
         }
         select, input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #444444; /* Dark border */
             border-radius: 4px;
+            background-color: #333333; /* Background color for input fields */
+            color: #ffffff; /* Light text color for input fields */
         }
         button {
             padding: 10px;
-            background-color: #28a745;
+            background-color: #bb86fc; /* Button color */
             color: white;
             border: none;
             border-radius: 4px;
@@ -45,13 +50,17 @@
             width: 100%;
         }
         button:hover {
-            background-color: #218838;
+            background-color: #9b59b6; /* Darker shade on hover */
         }
         .result {
             margin-top: 20px;
             padding: 10px;
-            background-color: #e9ecef;
-            border-left: 5px solid #007bff;
+            background-color: #292929; /* Dark background for result */
+            border-left: 5px solid #03dac6; /* Accent color */
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -77,6 +86,7 @@
     <button onclick="getDialingInstructions()">Get Instructions</button>
 
     <div class="result" id="result" style="display:none;"></div>
+    <div class="error" id="error" style="display:none;"></div>
 </div>
 
 <script>
@@ -84,6 +94,19 @@
         const callingFrom = document.getElementById('callingFrom').value;
         const extension = document.getElementById('extension').value;
         const resultDiv = document.getElementById('result');
+        const errorDiv = document.getElementById('error');
+
+        // Clear previous result and error messages
+        resultDiv.style.display = "none";
+        errorDiv.style.display = "none";
+        errorDiv.innerHTML = "";
+
+        // Validate extension input to ensure it contains only numbers
+        if (!/^\d+$/.test(extension)) {
+            errorDiv.innerHTML = "Invalid format - use numbers only.";
+            errorDiv.style.display = "block";
+            return;
+        }
 
         if (!callingFrom || !extension) {
             resultDiv.innerHTML = "Please select an operator's system and enter an extension number.";
@@ -92,28 +115,24 @@
         }
 
         let instructions = '';
-        let prefix = '';
 
         // Determine the prefix based on the calling system
         switch (callingFrom) {
             case 'phonenet':
-                prefix = '9';
-                instructions = `Call from PhoneNet: Dial <strong>${prefix}${extension}</strong>`;
+                instructions = `To call extension <strong>${extension}</strong> from PhoneNet, dial <strong>9${extension}</strong>.`;
+                instructions += `<br>To call extension <strong>${extension}</strong> from CSP, dial <strong>7${extension}</strong>.`;
                 break;
             case 'litetel':
-                prefix = '8';
-                instructions = `Call from LiteTel: Dial <strong>${prefix}${extension}</strong>`;
+                instructions = `To call extension <strong>${extension}</strong> from LiteTel, dial <strong>8${extension}</strong>.`;
                 break;
             case 'brewtel':
-                prefix = '8888';
-                instructions = `Call from BrewTel: Dial <strong>${prefix}${extension}</strong>`;
+                instructions = `To call extension <strong>${extension}</strong> from BrewTel, dial <strong>8888${extension}</strong>.`;
                 break;
             case 'csp':
-                prefix = '7';
-                instructions = `Call from CSP: Dial <strong>${prefix}${extension}</strong>`;
+                instructions = `To call extension <strong>${extension}</strong> from CSP, dial <strong>7${extension}</strong>.`;
                 break;
             case 'local':
-                instructions = `Call from Local: Dial <strong>${extension}</strong>`;
+                instructions = `To call extension <strong>${extension}</strong> from Local, dial <strong>${extension}</strong>.`;
                 break;
             default:
                 instructions = "Unknown operator's system.";
