@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PBX Extension Caller</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-left: 5px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>PBX Extension Caller</h1>
+    <div class="input-group">
+        <label for="callingFrom">Select Desired Operator's System:</label>
+        <select id="callingFrom">
+            <option value="">-- Select Operator's System --</option>
+            <option value="phonenet">PhoneNet</option>
+            <option value="litetel">LiteTel</option>
+            <option value="brewtel">BrewTel</option>
+            <option value="csp">CSP</option>
+            <option value="local">Local</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <label for="extension">Enter Extension Number:</label>
+        <input type="text" id="extension" placeholder="e.g., 1001">
+    </div>
+    <button onclick="getDialingInstructions()">Get Instructions</button>
+
+    <div class="result" id="result" style="display:none;"></div>
+</div>
+
+<script>
+    function getDialingInstructions() {
+        const callingFrom = document.getElementById('callingFrom').value;
+        const extension = document.getElementById('extension').value;
+        const resultDiv = document.getElementById('result');
+
+        if (!callingFrom || !extension) {
+            resultDiv.innerHTML = "Please select an operator's system and enter an extension number.";
+            resultDiv.style.display = "block";
+            return;
+        }
+
+        let instructions = '';
+        let prefix = '';
+
+        // Determine the prefix based on the calling system
+        switch (callingFrom) {
+            case 'phonenet':
+                prefix = '9';
+                instructions = `Call from PhoneNet: Dial <strong>${prefix}${extension}</strong>`;
+                break;
+            case 'litetel':
+                prefix = '8';
+                instructions = `Call from LiteTel: Dial <strong>${prefix}${extension}</strong>`;
+                break;
+            case 'brewtel':
+                prefix = '8888';
+                instructions = `Call from BrewTel: Dial <strong>${prefix}${extension}</strong>`;
+                break;
+            case 'csp':
+                prefix = '7';
+                instructions = `Call from CSP: Dial <strong>${prefix}${extension}</strong>`;
+                break;
+            case 'local':
+                instructions = `Call from Local: Dial <strong>${extension}</strong>`;
+                break;
+            default:
+                instructions = "Unknown operator's system.";
+        }
+
+        resultDiv.innerHTML = instructions;
+        resultDiv.style.display = "block";
+    }
+</script>
+
+</body>
+</html>
