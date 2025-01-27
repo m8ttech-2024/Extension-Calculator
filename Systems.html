@@ -109,7 +109,7 @@
     </div>
     <div class="input-group">
         <label for="extension">Enter Extension Number:</label>
-        <input type="text" id="extension" placeholder="e.g,1127, 6664021">
+        <input type="text" id="extension" placeholder="e.g, 1271, 3961001">
     </div>
     <button onclick="getDialingInstructions()">Get Instructions</button>
 
@@ -157,6 +157,7 @@
                 break;
             case 'phonenet':
                 instructions = `To call extension <strong>${extension}</strong> from PhoneNet, dial <strong>9${extension}</strong>.`;
+                instructions += `<br>You can also call this extension through CSP as <strong>795${extension}</strong>.`;
                 break;
             case 'uwutel':
                 instructions = `To call extension <strong>${extension}</strong> from UwUtel, dial <strong>70119${extension}</strong>.`;
