@@ -33,12 +33,13 @@
             color: #ffffff; /* Light text color for labels */
         }
         select, input {
-            width: 100%;
+            width: calc(100% - 22px); /* Set width to be the same, accounting for padding */
             padding: 10px;
             border: 1px solid #444444; /* Dark border */
             border-radius: 4px;
             background-color: #333333; /* Background color for input fields */
             color: #ffffff; /* Light text color for input fields */
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
         }
         button {
             padding: 10px;
@@ -72,16 +73,17 @@
         <label for="callingFrom">Select Desired Operator's System:</label>
         <select id="callingFrom">
             <option value="">-- Select Operator's System --</option>
-            <option value="phonenet">PhoneNet</option>
-            <option value="litetel">LiteTel</option>
             <option value="brewtel">BrewTel</option>
             <option value="csp">CSP</option>
+            <option value="litetel">LiteTel</option>
+            <option value="phonenet">PhoneNet</option>
+            <option value="uwutel">UwUtel</option>
             <option value="local">Local</option>
         </select>
     </div>
     <div class="input-group">
         <label for="extension">Enter Extension Number:</label>
-        <input type="text" id="extension" placeholder="e.g., 1001">
+        <input type="text" id="extension" placeholder="e.g, 1001, 6663000">
     </div>
     <button onclick="getDialingInstructions()">Get Instructions</button>
 
@@ -118,18 +120,21 @@
 
         // Determine the prefix based on the calling system
         switch (callingFrom) {
-            case 'phonenet':
-                instructions = `To call extension <strong>${extension}</strong> from PhoneNet, dial <strong>9${extension}</strong>.`;
-                instructions += `<br>To call extension <strong>${extension}</strong> from CSP, dial <strong>7${extension}</strong>.`;
-                break;
-            case 'litetel':
-                instructions = `To call extension <strong>${extension}</strong> from LiteTel, dial <strong>8${extension}</strong>.`;
-                break;
             case 'brewtel':
                 instructions = `To call extension <strong>${extension}</strong> from BrewTel, dial <strong>8888${extension}</strong>.`;
                 break;
             case 'csp':
                 instructions = `To call extension <strong>${extension}</strong> from CSP, dial <strong>7${extension}</strong>.`;
+                break;
+            case 'litetel':
+                instructions = `To call extension <strong>${extension}</strong> from LiteTel, dial <strong>8${extension}</strong>.`;
+                break;
+            case 'phonenet':
+                instructions = `To call extension <strong>${extension}</strong> from PhoneNet, dial <strong>9${extension}</strong>.`;
+                instructions += `<br>To call extension <strong>${extension}</strong> from CSP, dial <strong>7${extension}</strong>.`;
+                break;
+            case 'uwutel':
+                instructions = `To call extension <strong>${extension}</strong> from UwUtel, dial <strong>70119${extension}</strong>.`;
                 break;
             case 'local':
                 instructions = `To call extension <strong>${extension}</strong> from Local, dial <strong>${extension}</strong>.`;
